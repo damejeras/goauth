@@ -1,17 +1,12 @@
 package main
 
 import (
-	"fmt"
+	"github.com/damejeras/goauth/api"
 	"log"
 	"net/http"
 )
 
-func main(){
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		_, err := fmt.Fprintf(w, "goauth")
-		if err != nil {
-			panic(err)
-		}
-	})
-	log.Fatal(http.ListenAndServe(":8080", nil))
+func main() {
+	server := api.NewServer()
+	log.Fatal(http.ListenAndServe(":8080", server))
 }
