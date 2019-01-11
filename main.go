@@ -7,6 +7,9 @@ import (
 )
 
 func main() {
-	server := api.NewServer()
+	config := api.Config{
+		KeyPath: "keys/jwtRS256.key",
+	}
+	server := api.NewServer(config)
 	log.Fatal(http.ListenAndServe(":8080", server))
 }

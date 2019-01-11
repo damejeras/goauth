@@ -7,11 +7,12 @@ import (
 
 type server struct {
 	router *mux.Router
+	config Config
 }
 
 // NewServer creates new api.server instance
-func NewServer() *server {
-	s := server{mux.NewRouter()}
+func NewServer(c Config) *server {
+	s := server{mux.NewRouter(), c}
 	s.routes()
 	return &s
 }

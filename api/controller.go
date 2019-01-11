@@ -10,7 +10,7 @@ import (
 )
 
 func (s *server) get() http.HandlerFunc {
-	key, err := ioutil.ReadFile("keys/jwtRS256.key")
+	key, err := ioutil.ReadFile(s.config.KeyPath)
 	if err != nil {
 		log.Fatalf("error reading private key: %s\n", err)
 	}
@@ -39,5 +39,11 @@ func (s *server) get() http.HandlerFunc {
 			http.Error(w, "internal error", 500)
 			log.Fatalln(err)
 		}
+	}
+}
+
+func (s *server) registration() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
 	}
 }
