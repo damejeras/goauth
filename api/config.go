@@ -1,5 +1,7 @@
 package api
 
+// Config carries values required for api.server to function
 type Config struct {
-	KeyPath string
+	DatabaseDSN string
+	KeyPath     string
 }

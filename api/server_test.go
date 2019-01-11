@@ -9,7 +9,7 @@ import (
 
 // TODO: add table testing
 func TestServeToken(t *testing.T) {
-	config := Config{"../keys/jwtRS256.key"}
+	config := Config{"../keys/jwtRS256.key", ""}
 	server := NewServer(config)
 	req, err := http.NewRequest("GET", "localhost:8080/", nil)
 	if err != nil {

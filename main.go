@@ -1,9 +1,11 @@
 package main
 
 import (
-	"github.com/damejeras/goauth/api"
 	"log"
 	"net/http"
+
+	"github.com/damejeras/goauth/api"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {

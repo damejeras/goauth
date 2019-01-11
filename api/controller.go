@@ -2,11 +2,12 @@ package api
 
 import (
 	"encoding/json"
-	"github.com/damejeras/goauth/jwt"
-	jwtgo "github.com/dgrijalva/jwt-go"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/damejeras/goauth/jwt"
+	jwtgo "github.com/dgrijalva/jwt-go"
 )
 
 func (s *server) get() http.HandlerFunc {
@@ -39,11 +40,5 @@ func (s *server) get() http.HandlerFunc {
 			http.Error(w, "internal error", 500)
 			log.Fatalln(err)
 		}
-	}
-}
-
-func (s *server) registration() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-
 	}
 }
