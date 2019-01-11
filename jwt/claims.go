@@ -1,8 +1,8 @@
 package jwt
 
 import (
-	"github.com/dgrijalva/jwt-go"
 	"time"
+	"github.com/dgrijalva/jwt-go"
 )
 
 // MakeClaims makes Claims structure to be used in API controller
