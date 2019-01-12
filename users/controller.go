@@ -61,10 +61,10 @@ func RegistrationHandler() http.HandlerFunc {
 			log.Fatalf("could not insert user: %v", err)
 		}
 
-		resp := map[string]string{
+		w.WriteHeader(201)
+		err = encoder.Encode(map[string]string{
 			"message": "account created",
-		}
-		err = encoder.Encode(resp)
+		})
 		if err != nil {
 			log.Fatalf("could not decode response: %v", err)
 		}

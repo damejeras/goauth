@@ -10,7 +10,7 @@ type server struct {
 	router *mux.Router
 }
 
-// NewServer creates new api.server instance
+// NewServer creates new server instance
 func NewServer() *server {
 	s := server{mux.NewRouter()}
 	s.routes()

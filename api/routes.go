@@ -1,12 +1,15 @@
 package api
 
-import "github.com/damejeras/goauth/users"
+import (
+	"github.com/damejeras/goauth/scopes"
+	"github.com/damejeras/goauth/users"
+)
 
 func (s *server) routes() {
-	s.router.Use(jsonAPI)
+	s.router.Use(contentTypeJSON)
+	s.router.HandleFunc("/register", users.RegistrationHandler()).Methods("POST")
+	s.router.HandleFunc("/login", users.LoginHandler()).Methods("POST")
 
-	// TODO: rename this
-	userApi := s.router.PathPrefix("/users").Subrouter()
-	userApi.HandleFunc("/register", users.RegistrationHandler()).Methods("POST")
-	userApi.HandleFunc("/login", users.LoginHandler()).Methods("POST")
+	scopesAPI := s.router.PathPrefix("/scopes").Subrouter()
+	scopesAPI.HandleFunc("/{email}", scopes.HandleNew()).Methods("POST")
 }
