@@ -3,9 +3,11 @@ package users
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/damejeras/goauth/jwt"
 	jwtgo "github.com/dgrijalva/jwt-go"
@@ -112,14 +114,37 @@ func LoginHandler() http.HandlerFunc {
 		err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 		if err != nil {
 			w.WriteHeader(401)
-			res := map[string]string{
+			encoder.Encode(map[string]string{
 				"error": "invalid credentials",
-			}
-			encoder.Encode(res)
+			})
 			return
 		}
 
-		token := jwtgo.NewWithClaims(jwtgo.SigningMethodRS256, jwt.MakeClaims())
+		rows, err := db.Query("SELECT scope FROM scopes WHERE user_id = ?", user.ID)
+		if err != nil {
+			http.Error(w, "internal error", 500)
+			fmt.Println("error while creating statement:", err)
+			return
+		}
+
+		var scopes []string
+		defer rows.Close()
+		for rows.Next() {
+			var scope string
+			err = rows.Scan(&scope)
+			if err != nil {
+				http.Error(w, "internal error", 500)
+				fmt.Println("error while scaning scopes:", err)
+				return
+			}
+			scopes = append(scopes, scope)
+		}
+
+		token := jwtgo.NewWithClaims(jwtgo.SigningMethodRS256, jwtgo.MapClaims{
+			"email":  user.Email,
+			"scopes": scopes,
+			"iat":    time.Now().UTC().Unix(),
+		})
 		signed, err := token.SignedString(privateKey)
 
 		response := jwt.Response{
